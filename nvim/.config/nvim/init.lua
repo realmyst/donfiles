@@ -27,6 +27,10 @@ end
 
 -- OR setup with some options
 require("nvim-tree").setup({
+  update_focused_file = {
+    enable = true,
+    update_cwd = true,
+  },
   sort = {
     sorter = "case_sensitive",
   },
@@ -46,7 +50,7 @@ require("nvim-tree").setup({
 local tree_api = require "nvim-tree.api"
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>t', tree_api.tree.open, 		      { desc = 'Open Tree' })
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+-- vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
@@ -55,6 +59,18 @@ vim.keymap.set('n', '<C-h>', '<C-w>h', {})
 vim.keymap.set('n', '<C-j>', '<C-w>j', {})
 vim.keymap.set('n', '<C-l>', '<C-w>l', {})
 vim.keymap.set('n', '<C-k>', '<C-w>k', {})
+
+vim.keymap.set("n", "<leader>f", function()
+  -- лениво грузим плагин, если используешь lazy.nvim
+  pcall(function()
+    require("lazy").load({ plugins = { "nvim-tree.lua" } })
+  end)
+
+  require("nvim-tree.api").tree.find_file({
+    open = true,   -- откроет дерево, если закрыто
+    focus = true,  -- переключит фокус на дерево
+  })
+end, { desc = "Toggle nvim-tree and focus current file" })
 
 vim.cmd.colorscheme("github_dark_default")
 vim.cmd.set("smartindent")
