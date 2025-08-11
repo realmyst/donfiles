@@ -1,0 +1,11 @@
+# nvim swap/backup/undo
+*.swp
+*.swo
+*.swx
+*.tmp
+*.backup
+*.undo
+
+# lazy.nvim / packer кеши (если где-то в репо)
+plugin/packer_compiled.lua
+
